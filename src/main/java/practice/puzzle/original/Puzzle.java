@@ -101,39 +101,47 @@ public class Puzzle {
     }
 
     private void update() {
-        handleInput();
+        handleInputs();
         updateMap();
     }
 
-    private void handleInput() {
+    private void handleInputs() {
         while (!inputs.isEmpty()) {
             Input current = inputs.pop();
-            if (current == Input.LEFT)
-                moveHorizontal(-1);
-            else if (current == Input.RIGHT)
-                moveHorizontal(1);
-            else if (current == Input.UP)
-                moveVertical(-1);
-            else if (current == Input.DOWN)
-                moveVertical(1);
+            handleInput(current);
         }
+    }
+
+    private void handleInput(Input input) {
+        if (input == Input.LEFT)
+            moveHorizontal(-1);
+        else if (input == Input.RIGHT)
+            moveHorizontal(1);
+        else if (input == Input.UP)
+            moveVertical(-1);
+        else if (input == Input.DOWN)
+            moveVertical(1);
     }
 
     private void updateMap() {
         for (int y = map.length - 1; y >= 0; y--) {
             for (int x = 0; x < map[y].length; x++) {
-                if ((map[y][x] == STONE || map[y][x] == FALLING_STONE) && map[y + 1][x] == AIR) {
-                    map[y + 1][x] = FALLING_STONE;
-                    map[y][x] = AIR;
-                } else if ((map[y][x] == BOX || map[y][x] == FALLING_BOX) && map[y + 1][x] == AIR) {
-                    map[y + 1][x] = FALLING_BOX;
-                    map[y][x] = AIR;
-                } else if (map[y][x] == FALLING_STONE) {
-                    map[y][x] = STONE;
-                } else if (map[y][x] == FALLING_BOX) {
-                    map[y][x] = BOX;
-                }
+                updateTitle(y, x);
             }
+        }
+    }
+
+    private void updateTitle(int y, int x) {
+        if ((map[y][x] == STONE || map[y][x] == FALLING_STONE) && map[y + 1][x] == AIR) {
+            map[y + 1][x] = FALLING_STONE;
+            map[y][x] = AIR;
+        } else if ((map[y][x] == BOX || map[y][x] == FALLING_BOX) && map[y + 1][x] == AIR) {
+            map[y + 1][x] = FALLING_BOX;
+            map[y][x] = AIR;
+        } else if (map[y][x] == FALLING_STONE) {
+            map[y][x] = STONE;
+        } else if (map[y][x] == FALLING_BOX) {
+            map[y][x] = BOX;
         }
     }
 
