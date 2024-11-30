@@ -101,6 +101,11 @@ public class Puzzle {
     }
 
     private void update() {
+        handleInput();
+        updateMap();
+    }
+
+    private void handleInput() {
         while (!inputs.isEmpty()) {
             Input current = inputs.pop();
             if (current == Input.LEFT)
@@ -112,7 +117,9 @@ public class Puzzle {
             else if (current == Input.DOWN)
                 moveVertical(1);
         }
+    }
 
+    private void updateMap() {
         for (int y = map.length - 1; y >= 0; y--) {
             for (int x = 0; x < map[y].length; x++) {
                 if ((map[y][x] == STONE || map[y][x] == FALLING_STONE) && map[y + 1][x] == AIR) {
@@ -131,11 +138,15 @@ public class Puzzle {
     }
 
     private void draw() {
-        Graphics g = jPanel.getGraphics();
-        g.clearRect(0, 0, jPanel.getWidth(), jPanel.getHeight());
-
+        Graphics g = createGraphics();
         drawMap(g);
         drawPlayer(g);
+    }
+
+    private Graphics createGraphics() {
+        Graphics g = jPanel.getGraphics();
+        g.clearRect(0, 0, jPanel.getWidth(), jPanel.getHeight());
+        return g;
     }
 
     private void drawMap(Graphics g) {
