@@ -134,7 +134,11 @@ public class Puzzle {
         Graphics g = jPanel.getGraphics();
         g.clearRect(0, 0, jPanel.getWidth(), jPanel.getHeight());
 
-        // Draw map
+        drawMap(g);
+        drawPlayer(g);
+    }
+
+    private void drawMap(Graphics g) {
         for (int y = 0; y < map.length; y++) {
             for (int x = 0; x < map[y].length; x++) {
                 if (map[y][x] == FLUX)
@@ -154,8 +158,9 @@ public class Puzzle {
                     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
+    }
 
-        // Draw player
+    private void drawPlayer(Graphics g) {
         g.setColor(Color.decode("#ff0000"));
         g.fillRect(playerX * TILE_SIZE, playerY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
